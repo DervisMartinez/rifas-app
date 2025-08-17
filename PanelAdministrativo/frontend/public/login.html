@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrativo - Sistema de Rifas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>RifApp Admin</h2>
+            <p>Panel de Control</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></li>
+            <li><i class="fas fa-ticket-alt"></i> <span>Rifas</span></li>
+            <li><i class="fas fa-shopping-cart"></i> <span>Compras</span></li>
+            <li><i class="fas fa-users"></i> <span>Compradores</span></li>
+            <li><i class="fas fa-chart-line"></i> <span>Reportes</span></li>
+            <li><i class="fas fa-cog"></i> <span>Configuración</span></li>
+            <li id="logout-btn"><i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1>Panel Administrativo</h1>
+            <div class="user-info">
+                <img src="https://picsum.photos/seed/admin/40/40.jpg" alt="Admin">
+                <div class="dropdown">
+                    <span id="admin-name">Admin User <i class="fas fa-chevron-down"></i></span>
+                    <div class="dropdown-content">
+                        <a href="#"><i class="fas fa-user"></i> Perfil</a>
+                        <a href="#"><i class="fas fa-cog"></i> Configuración</a>
+                        <a href="#" id="logout-dropdown"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Rifas Activas</h3>
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <div class="card-body">
+                    <div class="number">3</div>
+                    <div class="label">Rifas en curso</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Compras Pendientes</h3>
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="card-body">
+                    <div class="number">12</div>
+                    <div class="label">Esperando aprobación</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Compradores</h3>
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="card-body">
+                    <div class="number">156</div>
+                    <div class="label">Total registrados</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Ingresos Totales</h3>
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="card-body">
+                    <div class="number">$1,250</div>
+                    <div class="label">En ventas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="rifas">Rifas</div>
+            <div class="tab" data-tab="compras">Compras</div>
+            <div class="tab" data-tab="compradores">Compradores</div>
+            <div class="tab" data-tab="reportes">Reportes</div>
+        </div>
+
+        <!-- Tab Content: Rifas -->
+        <div class="tab-content active" id="rifas">
+            <div class="form-container">
+                <h2 class="form-title">Crear Nueva Rifa</h2>
+                <form id="form-rifa">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre-rifa">Nombre de la Rifa</label>
+                            <input type="text" id="nombre-rifa" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcion-rifa">Descripción</label>
+                            <textarea id="descripcion-rifa" rows="3"></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="precio-dolar">Precio en Dólares</label>
+                            <input type="number" id="precio-dolar" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="precio-bolivar">Precio en Bolívares</label>
+                            <input type="number" id="precio-bolivar" min="0" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="min-boletos">Mínimo de Boletos por Usuario</label>
+                            <input type="number" id="min-boletos" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="max-boletos">Máximo de Boletos por Usuario</label>
+                            <input type="number" id="max-boletos" min="1" value="10" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="total-boletos">Total de Boletos Disponibles</label>
+                            <input type="number" id="total-boletos" min="1" value="1000" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="imagen-rifa">Imagen Destacada</label>
+                        <div class="file-upload" id="file-upload">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Haz clic para subir la imagen</p>
+                            <p class="file-name" id="file-name"></p>
+                            <input type="file" id="imagen-rifa" accept="image/*" style="display: none;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fecha-fin">Fecha de Finalización</label>
+                        <input type="date" id="fecha-fin" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Crear Rifa</button>
+                </form>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Precio (USD)</th>
+                            <th>Precio (Bs)</th>
+                            <th>Boletos</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Automóvil 0KM</td>
+                            <td>$100.00</td>
+                            <td>250.000 Bs.</td>
+                            <td>750/1000</td>
+                            <td><span class="status-badge status-approved">Activa</span></td>
+                            <td>
+                                <button class="btn btn-warning"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Smartphone Premium</td>
+                            <td>$50.00</td>
+                            <td>125.000 Bs.</td>
+                            <td>350/500</td>
+                            <td><span class="status-badge status-approved">Activa</span></td>
+                            <td>
+                                <button class="btn btn-warning"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Viaje a Cancún</td>
+                            <td>$200.00</td>
+                            <td>500.000 Bs.</td>
+                            <td>200/300</td>
+                            <td><span class="status-badge status-approved">Activa</span></td>
+                            <td>
+                                <button class="btn btn-warning"><i class="fas fa-edit"></i></button>
+                                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <ul class="pagination">
+                    <li><a href="#"><i class="fas fa-chevron-left"></i></a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tab Content: Compras -->
+        <div class="tab-content" id="compras">
+            <div class="form-container">
+                <h2 class="form-title">Compras Pendientes de Aprobación</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Rifa</th>
+                            <th>Método Pago</th>
+                            <th>Monto</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Aprobar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Carlos Pérez</td>
+                            <td>Automóvil 0KM</td>
+                            <td>Transferencia</td>
+                            <td>$100.00</td>
+                            <td>2023-06-15</td>
+                            <td><span class="status-badge status-pending">Pendiente</span></td>
+                            <td>
+                                <input type="checkbox" class="approve-checkbox" data-id="1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Maria García</td>
+                            <td>Smartphone Premium</td>
+                            <td>Zelle</td>
+                            <td>$50.00</td>
+                            <td>2023-06-15</td>
+                            <td><span class="status-badge status-pending">Pendiente</span></td>
+                            <td>
+                                <input type="checkbox" class="approve-checkbox" data-id="2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Juan Rodríguez</td>
+                            <td>Viaje a Cancún</td>
+                            <td>Efectivo</td>
+                            <td>$200.00</td>
+                            <td>2023-06-14</td>
+                            <td><span class="status-badge status-pending">Pendiente</span></td>
+                            <td>
+                                <input type="checkbox" class="approve-checkbox" data-id="3">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div style="text-align: right; margin-top: 20px;">
+                    <button class="btn btn-success" id="approve-selected">Aprobar Seleccionados</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Content: Compradores -->
+        <div class="tab-content" id="compradores">
+            <div class="form-container">
+                <h2 class="form-title">Registro de Compradores por Rifa</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="select-rifa">Seleccionar Rifa</label>
+                        <select id="select-rifa">
+                            <option value="">Todas las Rifas</option>
+                            <option value="1">Automóvil 0KM</option>
+                            <option value="2">Smartphone Premium</option>
+                            <option value="3">Viaje a Cancún</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="search-comprador">Buscar Comprador</label>
+                        <input type="text" id="search-comprador" placeholder="Nombre, apellido o cédula">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all"></th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Teléfono</th>
+                            <th>Cédula</th>
+                            <th>Rifa</th>
+                            <th>Tickets</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox" class="comprador-checkbox"></td>
+                            <td>Carlos</td>
+                            <td>Pérez</td>
+                            <td>0412-345-6789</td>
+                            <td>V-12345678</td>
+                            <td>Automóvil 0KM</td>
+                            <td>3</td>
+                            <td><span class="status-badge status-approved">Aprobado</span></td>
+                            <td>
+                                <button class="btn btn-warning"><i class="fas fa-ticket-alt"></i></button>
+                                <button class="btn btn-info"><i class="fas fa-envelope"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="comprador-checkbox"></td>
+                            <td>Maria</td>
+                            <td>García</td>
+                            <td>0414-567-8901</td>
+                            <td>V-87654321</td>
+                            <td>Smartphone Premium</td>
+                            <td>2</td>
+                            <td><span class="status-badge status-approved">Aprobado</span></td>
+                            <td>
+                                <button class="btn btn-warning"><i class="fas fa-ticket-alt"></i></button>
+                                <button class="btn btn-info"><i class="fas fa-envelope"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="comprador-checkbox"></td>
+                            <td>Juan</td>
+                            <td>Rodríguez</td>
+                            <td>0416-789-0123</td>
+                            <td>V-23456789</td>
+                            <td>Viaje a Cancún</td>
+                            <td>1</td>
+                            <td><span class="status-badge status-pending">Pendiente</span></td>
+                            <td>
+                                <button class="btn btn-warning" disabled><i class="fas fa-ticket-alt"></i></button>
+                                <button class="btn btn-info"><i class="fas fa-envelope"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <ul class="pagination">
+                    <li><a href="#"><i class="fas fa-chevron-left"></i></a></li>
+                    <li class="active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-right"></i></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tab Content: Reportes -->
+        <div class="tab-content" id="reportes">
+            <div class="form-container">
+                <h2 class="form-title">Reportes de Rifas</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="report-rifa">Seleccionar Rifa</label>
+                        <select id="report-rifa">
+                            <option value="">Todas las Rifas</option>
+                            <option value="1">Automóvil 0KM</option>
+                            <option value="2">Smartphone Premium</option>
+                            <option value="3">Viaje a Cancún</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="report-type">Tipo de Reporte</label>
+                        <select id="report-type">
+                            <option value="ventas">Ventas</option>
+                            <option value="tickets">Tickets Asignados</option>
+                            <option value="compradores">Compradores</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="report-format">Formato</label>
+                        <select id="report-format">
+                            <option value="pdf">PDF</option>
+                            <option value="excel">Excel</option>
+                            <option value="csv">CSV</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="margin-top: 20px;">Generar Reporte</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Aprobación -->
+    <div class="modal" id="approve-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Aprobar Compra</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>¿Estás seguro de que deseas aprobar esta compra?</p>
+                <p><strong>Nombre:</strong> <span id="modal-name"></span></p>
+                <p><strong>Rifa:</strong> <span id="modal-rifa"></span></p>
+                <p><strong>Monto:</strong> <span id="modal-monto"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger modal-close">Cancelar</button>
+                <button class="btn btn-success" id="confirm-approve">Aprobar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificación -->
+    <div class="notification" id="notification"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
